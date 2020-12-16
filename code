@@ -1,0 +1,98 @@
+import Tests
+outside_colors = ['RED', 'GREEN', 'BLUE', 'YELLOW']
+
+def player_choice(name, choices):
+    player_has_chosen_correct = False
+# Starts by setting up while loop
+    while not player_has_chosen_correct:
+        print()
+        print('Please Chose a ' + name + ':')
+# use varible string input since both colors and numbers can be chosen
+        for i in range(0, len(choices)):
+# print the options one by one, but colors, numbers, and fortunces all have differentl list lengths, so it is the whole list)
+            print(choices[i])
+
+        choice = input('--> ')
+# if player has typed a value in the list, it will continue otherwise print string and try again
+        player_has_chosen_correct = (choice in choices)
+
+        if not player_has_chosen_correct:
+            print('please choose something on the list')
+
+    return choice
+# gives list of numbers based on the number of letters in color chosen
+def first_choices(n_letters_in_color):
+    if n_letters_in_color in [3, 5]:
+        # Colors Red or Green
+        first_number_choices = ['1', '2', '5', '6']
+    else:
+        # Colors Blue or Yellow
+        first_number_choices = ['3', '4', '7', '8']
+    
+    return first_number_choices
+# gives list of numbers based on the number of letters in color chosen
+# and then given a second set of numbers based off the number chosen in the first set given
+def second_choices(n_letters_in_color, first_number_chosen):
+    if n_letters_in_color in [3, 5]:
+    # The player just chose from 1256, and these are the given options
+
+        if first_number_chosen in ['1', '5']:
+            second_number_choices = ['3', '4', '7', '8']
+        else:
+            # this for numbers 1 and 2
+            second_number_choices = ['1', '2', '5', '6']
+    else:
+    # The player just chose from 3478, now these are the given options
+
+        if first_number_chosen in ['3', '7']:
+            second_number_choices = ['1', '2', '5', '6']
+        else:
+            # this for numbers 4 and 8
+            second_number_choices = ['3', '4', '7', '8']
+    return second_number_choices
+
+
+def fortune_teller(second_number_chosen):
+    # Takes second number - 1 (since numbers 1-8 but a list would be 0-7 so subtracting 1 is simple solution)
+    fortune_number = int(second_number_chosen) - 1
+    print('fortune chosen:')
+    print(fortune_number)
+
+    fortunes = ['You will win the lottery and lose the ticket',
+                'You will fall in love with a classmate in COGS18!',
+                'You will find a worm in your next pineapple, how crazy!',
+                'You will fly away with an umbrella next week!',
+                'You will find treasure at Scripps Pier',
+                'You will turn into a coding genius!',
+                'You will get an amazing project grade!',
+                'You will get eaten by an ant, pathetic...']
+
+    player_fortune = fortunes[fortune_number]
+
+    print()
+    print(player_fortune)
+    print()
+    
+def play_again():
+    # varible = the input, if the input is 'y' it will run game, if 'n', it will say bye and exit
+    again = input("Do you want to play again? (Y/N) : ").lower()
+    if again == "y":
+        game()
+    else:
+        print("Bye!")
+        exit()
+# I figured out how to group the functions into a sinlge function that when run goes through the functions earlier        
+def game():
+    print("WELCOME TO THE ALL KNOWING MATT'S ONLINE FORTUNE TELLER!")
+    outside_colors = ['RED', 'GREEN', 'BLUE', 'YELLOW']
+    color_choice = player_choice('Color', outside_colors)
+    n_letters_in_color = len(color_choice)
+    first_number_chosen = player_choice('Number', first_choices(n_letters_in_color))
+    second_choices(n_letters_in_color, first_number_chosen)
+    second_number_chosen = player_choice('Number', second_choices(n_letters_in_color, first_number_chosen))
+    fortune_teller(second_number_chosen)
+    play_again()
+    
+
+if __name__ == "__main__":
+   game()
